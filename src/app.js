@@ -1,29 +1,32 @@
-import {inject, Aurelia} from 'aurelia-framework';
+import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import tweetService from './services/TweetService';
 import {LoginStatus} from './services/messages';
 
-@inject(Aurelia, EventAggregator)
+@inject(EventAggregator, tweetService)
 export class App {
 
-  constructor(au, ea) {
+  loggedIn = false;
+  showLogin = false;
+  showSignup = false;
+
+  constructor(ea, ds) {
+    this.tweetService = ds;
     ea.subscribe(LoginStatus, msg => {
-      if (msg.status.success === true) {
-        au.setRoot('home').then(() => {
-          this.router.navigateToRoute('donate');
-        });
-      } else {
-        au.setRoot('app').then(() => {
-          this.router.navigateToRoute('login');
-        });
-      }
+      this.loggedIn = msg.status.success;
     });
   }
 
-  configureRouter(config, router) {
-    config.map([
-      { route: ['', 'login'], name: 'login', moduleId: 'viewmodels/login/login', nav: true, title: 'Login' },
-      { route: 'signup', name: 'signup', moduleId: 'viewmodels/signup/signup', nav: true, title: 'Signup' }
-    ]);
-    this.router = router;
+  login() {
+    this.showLogin = true;
+  }
+
+  signup() {
+    this.showSignup = true;
+  }
+
+  logout() {
+    console.log('Logging out`');
+    this.loggedIn = false;
   }
 }

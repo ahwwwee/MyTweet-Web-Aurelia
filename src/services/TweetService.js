@@ -10,6 +10,7 @@ export default class TweetService {
 
   constructor(data, ea) {
     this.tweets = data.tweets;
+    this.users = data.users;
     this.ea = ea;
   }
 
