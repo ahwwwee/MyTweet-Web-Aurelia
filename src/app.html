@@ -1,37 +1,8 @@
 <template>
-
-  <div class="ui container">
-
-    <nav class="ui inverted menu">
-      <header class="header item"><a href="/"> My Tweet </a></header>
-      <div class="right menu">
-        <div show.bind="!loggedIn">
-          <a class="item" click.trigger="signup()"> Signup </a>
-        </div>
-        <div show.bind="loggedIn">
-          <a class="item" click.trigger="logout()"> Logout </a>
-        </div>
-      </div>
-    </nav>
-
-  <section class="ui center aligned segment">
-    <div show.bind="!loggedIn">
-      <compose view-model="./viewmodels/welcome/welcome"></compose>
-      <compose view="./viewmodels/login/login.html"></compose>
-      <aside class="column">
-        <compose view-model="./viewmodels/signup/signup"></compose>
-      </aside>
-    </div>
-  </section>
-  <div show.bind="loggedIn">
-    <section class="ui three column stackable grid basic center aligned segment">
-      <aside class="column">
-        <compose view-model="./viewmodels/tweet/tweet"></compose>
-      </aside>
-      <aside class="column">
-        <compose view-model="./viewmodels/tweetList/tweetList"></compose>
-      </aside>
-    </section>
+  <require from="nav-bar.html"></require>
+  <div class="ui container page-host">
+    <nav-bar router.bind="router"></nav-bar>
+    <router-view></router-view>
   </div>
 </template>
 

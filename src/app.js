@@ -1,47 +1,29 @@
-import {inject} from 'aurelia-framework';
+import {inject, Aurelia} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import tweetService from './services/TweetService';
 import {LoginStatus} from './services/messages';
 
-@inject(EventAggregator, tweetService)
+@inject(Aurelia, EventAggregator)
 export class App {
 
-  loggedIn = false;
-  showSignup = false;
-
-  constructor(ea, ts) {
-    this.tweetService = ts;
+  constructor(au, ea) {
     ea.subscribe(LoginStatus, msg => {
-      this.loggedIn = msg.status.success;
+      if (msg.status.success === true) {
+        au.setRoot('home').then(() => {
+          this.router.navigateToRoute('donate');
+        });
+      } else {
+        au.setRoot('app').then(() => {
+          this.router.navigateToRoute('login');
+        });
+      }
     });
   }
 
-  register(e) {
-    this.showSignup = false;
-    this.tweetService.register(this.firstName, this.lastName, this.email, this.password);
+  configureRouter(config, router) {
+    config.map([
+      { route: ['', 'login'], name: 'login', moduleId: 'viewmodels/login/login', nav: true, title: 'Login' },
+      { route: 'signup', name: 'signup', moduleId: 'viewmodels/signup/signup', nav: true, title: 'Signup' }
+    ]);
+    this.router = router;
   }
-
-  login(e) {
-    console.log(`Trying to log in ${this.email}`);
-    const status = this.tweetService.login(this.email, this.password);
-    this.prompt = status.message;
-    this.loggedIn = status.success;
-  }
-
-  signup() {
-    this.showSignup = true;
-  }
-
-  logout() {
-    console.log('Logging out');
-    this.loggedIn = false;
-  }
-
-  /*configureRouter(config, router) {
-   config.map([
-   { route: ['', 'login'], name: 'login', moduleId: 'viewmodels/login/login', nav: true, title: 'Login' },
-   { route: 'signup', name: 'signup', moduleId: 'viewmodels/signup/signup', nav: true, title: 'Signup' }
-   ]);
-   this.router = router;
-   }*/
 }

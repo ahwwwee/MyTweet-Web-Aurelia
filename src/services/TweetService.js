@@ -1,14 +1,16 @@
 import {inject} from 'aurelia-framework';
 import Fixtures from './fixtures';
+import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Fixtures)
+@inject(Fixtures, EventAggregator)
 export default class TweetService {
 
   tweets = [];
   users = [];
 
-  constructor(data) {
+  constructor(data, ea) {
     this.tweets = data.tweets;
+    this.ea = ea;
   }
 
   register(firstName, lastName, email, password) {

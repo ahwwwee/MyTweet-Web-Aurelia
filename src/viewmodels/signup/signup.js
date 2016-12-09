@@ -1,6 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import tweetService from '../../services/tweetService';
+import tweetService from '../../services/TweetService';
 import {LoginStatus} from '../../services/messages';
 
 @inject(EventAggregator, tweetService)

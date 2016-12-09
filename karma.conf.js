@@ -1,4 +1,5 @@
 "use strict";
+
 const path = require('path');
 const project = require('./aurelia_project/aurelia.json');
 
