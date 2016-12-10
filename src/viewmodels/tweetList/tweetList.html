@@ -1,20 +1,14 @@
 <template>
 
   <section class="ui stacked segment">
-    <article>
-      <table class="ui celled table segment">
-        <thead>
-        <tr>
-          <th>Tweet</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr repeat.for="tweet of tweets">
-          <td> ${tweet.content}</td>
-        </tr>
-        </tbody>
-      </table>
-    </article>
+    <div class="ui fluid card" repeat.for="tweet of tweets">
+      <div class="content">
+        ${tweet.tweeter.firstName} ${tweet.tweeter.lastName}
+      </div>
+      <div class="content">
+        ${tweet.content}
+      </div>
+    </div>
   </section>
 
 </template>

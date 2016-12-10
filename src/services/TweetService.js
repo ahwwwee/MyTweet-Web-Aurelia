@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import Fixtures from './fixtures';
+import {LoginStatus, LoginPage, SignupPage} from './messages';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Fixtures, EventAggregator)
@@ -7,14 +8,22 @@ export default class TweetService {
 
   tweets = [];
   users = [];
+  currentUser;
 
   constructor(data, ea) {
-    this.tweets = data.tweets;
-    this.users = data.users;
     this.ea = ea;
   }
 
   register(firstName, lastName, email, password) {
+    const status = {
+      bool: true,
+      message: ''
+    };
+    const otherStatus = {
+      bool: false,
+      message: ''
+    }
+
     const newUser = {
       firstName: firstName,
       lastName: lastName,
@@ -22,6 +31,9 @@ export default class TweetService {
       password: password
     };
     this.users[email] = newUser;
+    this.ea.publish(new LoginPage(status));
+    this.ea.publish(new SignupPage(otherStatus));
+
   }
 
   login(email, password) {
@@ -40,6 +52,7 @@ export default class TweetService {
     } else {
       status.message = 'Unknown user';
     }
+    this.currentUser = this.users[email];
     this.ea.publish(new LoginStatus(status));
   }
 
@@ -53,7 +66,8 @@ export default class TweetService {
 
   tweet(content) {
     const Tweet = {
-      content: content
+      content: content,
+      tweeter: this.currentUser
     };
     this.tweets.push(Tweet);
     console.log(content);

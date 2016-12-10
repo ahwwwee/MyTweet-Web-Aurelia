@@ -6,7 +6,7 @@
       <header class="header item"><a href="/"> Tweet </a></header>
       <div class="right menu">
         <div show.bind="!loggedIn">
-          <a class="item" click.trigger="login()"> Login </a>
+          <a class="item" click.trigger="loginPage()"> Login </a>
         </div>
         <div show.bind="!loggedIn">
           <a class="item" click.trigger="signup()"> Signup </a>
@@ -31,12 +31,19 @@
         </div>
         <div show.bind="!showLogin" class="ui row">
           <div show.bind="showSignup" class="ui row">
-              <compose view-model="./viewmodels/signup/signup"></compose>
+            <compose view-model="./viewmodels/signup/signup"></compose>
           </div>
         </div>
       </div>
       <div show.bind="loggedIn" class="ui row">
-          <compose view-model="./viewmodels/tweet/tweet"></compose>
+        <div class="ui two column grid">
+          <div class="column">
+            <compose view-model="./viewmodels/tweet/tweet"></compose>
+          </div>
+          <div class="column">
+            <compose view-model="./viewmodels/tweetList/tweetList"></compose>
+          </div>
+        </div>
       </div>
     </section>
   </div>

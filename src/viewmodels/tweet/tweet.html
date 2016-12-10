@@ -1,9 +1,7 @@
 <template>
-  <section class="ui two column stackable grid basic segment">
-    <h2>Heres where you Tweet...</h2>
-    <form class="ui fluid form column stacked segment" submit.trigger="makeTweet()">
-      <label>Insert Tweet here</label> <textarea value.bind="content" maxlength="140"></textarea>
-      <button type="submit" class="ui fluid violet submit button">Post</button>
-    </form>
-  </section>
+  <h2>Heres where you Tweet...</h2>
+  <form class="ui fluid form column stacked segment" submit.trigger="makeTweet()">
+    <label>Insert Tweet here</label> <textarea value.bind="content" maxlength="140"></textarea>
+    <button type="submit" class="ui fluid violet submit button">Post</button>
+  </form>
 </template>
