@@ -1,21 +1,30 @@
 <template>
 
-  <form submit.delegate="login($event)" class="ui stacked segment form">
-    <h3 class="ui header">Log-in</h3>
-    <div class="ui stackable two column grid">
-      <div class="column">
-        <div class="field">
-          <label>Email</label> <input placeholder="Email" value.bind="email"/>
-        </div>
-      </div>
-      <div class="column">
-        <div class="field">
-          <label>Password</label> <input type="password" value.bind="password"/>
-        </div>
-        <button class="ui blue submit button">Login</button>
-        <h3>${prompt}</h3>
-      </div>
+  <div class="ui grid">
+    <div class="ui centered five wide column">
+      <img src="assets/images/tweet-tweet.png">
     </div>
-  </form>
+  </div>
+  <div class="ui grid">
+    <div class="ui centered seven wide column">
+      <form submit.delegate="login($event)" class="ui fluid form">
+        <h3 class="ui centered header">Log-in</h3>
+        <div class="ui two column grid">
+          <div class="column">
+            <div class="field">
+              <label>Email</label> <input placeholder="Email" value.bind="email"/>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label>Password</label> <input type="password" value.bind="password"/>
+            </div>
+          </div>
+          <button class="ui fluid blue submit button">Login</button>
+          <h3>${prompt}</h3>
+        </div>
+      </form>
+    </div>
+  </div>
 
 </template>

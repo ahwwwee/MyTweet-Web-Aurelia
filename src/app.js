@@ -19,10 +19,12 @@ export class App {
 
   login() {
     this.showLogin = true;
+    this.showSignup = false;
   }
 
   signup() {
     this.showSignup = true;
+    this.showLogin = false;
   }
 
   logout() {
