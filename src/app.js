@@ -1,53 +1,53 @@
-import {inject} from 'aurelia-framework';
+import {inject, Aurelia} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import tweetService from './services/TweetService';
-import {LoginStatus, LoginPage, SignupPage} from './services/messages';
+import {LoginStatus, NewUserStat} from './services/messages';
 
-@inject(EventAggregator, tweetService)
+@inject(Aurelia, EventAggregator)
 export class App {
 
-  loggedIn = false;
-  showLogin = false;
-  showSignup = false;
-
-  constructor(ea, ts) {
-    this.tweetService = ts;
+  constructor(ea, au) {
     ea.subscribe(LoginStatus, msg => {
-      this.loggedIn = msg.status.success;
+      if (msg.status.success === true) {
+        au.setRoot('welcome').then(() => {
+          this.router.navigateToRoute('tweet');
+        });
+      } else {
+        au.setRoot('app').then(() => {
+          this.router.navigateToRoute('login');
+        });
+      }
     });
-    ea.subscribe(LoginPage, msg => {
-      this.showLogin = msg.status.bool;
+    ea.subscribe(NewUserStat, msg => {
+      if (msg.status.success === true) {
+        au.setRoot('welcome').then(() => {
+          this.router.navigateToRoute('login');
+        });
+      } else {
+        au.setRoot('app').then(() => {
+          this.router.navigateToRoute('welcome');
+        });
+      }
     });
-    ea.subscribe(SignupPage, msg => {
-      this.showSignup = msg.status.bool;
-    });
+    /*ea.subscribe(SignupPage, msg => {
+      if (msg.status.bool === true) {
+        au.setRoot('welcome ').then(() => {
+          this.router.navigateToRoute('login');
+        });
+      } else {
+        au.setRoot('app').then(() => {
+          this.router.navigateToRoute('welcome');
+        });
+      }
+    });*/
   }
 
-  loginPage() {
-    this.showLogin = true;
-    this.showSignup = false;
-  }
-
-  signup() {
-    this.showSignup = true;
-    this.showLogin = false;
-  }
-
-  register(e) {
-    this.showSignup = false;
-    this.showLogin = true;
-    this.tweetService.register(this.firstName, this.lastName, this.email, this.password);
-  }
-
-  login(e) {
-    console.log(`Trying to log in ${this.email}`);
-    const status = this.tweetService.login(this.email, this.password);
-    this.prompt = status.message;
-    this.loggedIn = status.success;
-  }
-
-  logout() {
-    console.log('Logging out`');
-    this.loggedIn = false;
+  configureRouter(config, router) {
+    config.title = 'My Tweet';
+    config.map([
+      { route: ['', 'welcome'], name: 'welcome', moduleId: 'viewmodels/welcome/welcome', nav: true, title: 'Welcome' },
+      { route: 'login', name: 'login', moduleId: 'viewmodels/login/login', nav: true, title: 'Login' },
+      { route: 'signup', name: 'signup', moduleId: 'viewmodels/signup/signup', nav: true, title: 'Signup' }
+    ]);
+    this.router = router;
   }
 }

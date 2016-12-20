@@ -4,13 +4,13 @@ export class LoginStatus {
   }
 }
 
-export class LoginPage {
+/*export class LoginPage {
   constructor(status) {
     this.status = status;
   }
-}
+}*/
 
-export class SignupPage {
+export class NewUserStat {
   constructor(status) {
     this.status = status;
   }
