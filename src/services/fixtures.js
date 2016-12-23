@@ -7,4 +7,7 @@ export default class Fixtures {
       content: 'Bart'
     }
   ];
+  users = [];
+
+  baseUrl = 'https://mytweet-ari.herokuapp.com';
 }

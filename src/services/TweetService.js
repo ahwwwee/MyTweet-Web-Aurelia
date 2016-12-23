@@ -1,6 +1,6 @@
 import {inject} from 'aurelia-framework';
 import Fixtures from './fixtures';
-import {LoginStatus} from './messages';
+import {LoginStatus, NewUserStat} from './messages';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Fixtures, EventAggregator)
@@ -17,6 +17,10 @@ export default class TweetService {
   }
 
   register(firstName, lastName, email, password) {
+    const status = {
+      success: false,
+      message: ''
+    };
 
     const newUser = {
       firstName: firstName,
@@ -24,9 +28,10 @@ export default class TweetService {
       email: email,
       password: password
     };
-    console.log(email)
-    console.log(this.users)
-    this.users[email] = newUser;
+    if (this.users[email] = newUser){
+      status.success = true;
+    }
+    this.ea.publish(new NewUserStat(status));
   }
 
   login(email, password) {
