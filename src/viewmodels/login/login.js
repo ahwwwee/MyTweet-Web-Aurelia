@@ -12,7 +12,6 @@ export class Login {
   }
 
   login(e) {
-    this.showLogin = false;
     this.tweetService.login(this.email, this.password);
   }
 }

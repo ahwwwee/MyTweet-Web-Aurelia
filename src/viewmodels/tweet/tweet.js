@@ -1,15 +1,17 @@
 import {inject} from 'aurelia-framework';
-import TweetService from '../../services/TweetService';
+import tweetService from '../../services/TweetService';
 
-@inject(TweetService)
+@inject(tweetService)
 export class Tweet {
 
+  content = '';
+
   constructor(ts) {
-    this.TweetService = ts;
+    this.tweetService = ts;
     this.content = ts.content;
   }
 
   makeTweet() {
-    this.TweetService.tweet(this.content);
+    this.tweetService.tweet(this.content);
   }
 }

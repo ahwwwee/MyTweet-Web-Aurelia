@@ -1,20 +1,24 @@
 import {inject} from 'aurelia-framework';
-import Fixtures from './fixtures';
 import {LoginStatus, NewUserStat} from './messages';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import AsyncHttpClient from './async-http-client';
 
-@inject(Fixtures, EventAggregator)
+@inject(EventAggregator, AsyncHttpClient)
 export default class TweetService {
 
   tweets = [];
   users = [];
   currentUser;
+  content = '';
 
-  constructor(data, ea) {
-    this.tweets = data.tweets;
-    this.users = data.users;
+  constructor(ea, ac) {
     this.ea = ea;
+    this.ac = ac;
   }
+
+  /*isAuthenticated() {
+    return this.ac.isAuthenticated();
+  }*/
 
   register(firstName, lastName, email, password) {
     const status = {
@@ -35,23 +39,12 @@ export default class TweetService {
   }
 
   login(email, password) {
-    const status = {
-      success: false,
-      message: ''
+    console.log(email);
+    const user = {
+      email: email,
+      password: password
     };
-
-    if (this.users[email]) {
-      if (this.users[email].password === password) {
-        status.success = true;
-        status.message = 'logged in';
-      } else {
-        status.message = 'Incorrect password';
-      }
-    } else {
-      status.message = 'Unknown user';
-    }
-    this.currentUser = this.users[email];
-    this.ea.publish(new LoginStatus(status));
+    this.ac.authenticate('/api/users/aurAuthenticate', user);
   }
 
   logout() {
@@ -59,7 +52,8 @@ export default class TweetService {
       success: false,
       message: ''
     };
-    this.ea.publish(new LoginStatus(status));
+    this.ac.clearAuthentication();
+    this.ea.publish(new LoginStatus(new LoginStatus(status)));
   }
 
   tweet(content) {
@@ -68,7 +62,6 @@ export default class TweetService {
       tweeter: this.currentUser
     };
     this.tweets.push(Tweet);
-    console.log(content);
   }
 
 }

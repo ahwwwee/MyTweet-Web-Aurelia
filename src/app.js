@@ -1,17 +1,18 @@
 import {inject, Aurelia} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {LoginStatus, NewUserStat} from './services/messages';
+import tweetService from './services/TweetService';
 
-@inject(Aurelia, EventAggregator)
+@inject(tweetService, Aurelia, EventAggregator)
 export class App {
 
-  constructor(au, ea) {
+  constructor(ts, au, ea) {
+    this.au = au;
+    this.ts = ts;
     ea.subscribe(LoginStatus, msg => {
-      console.log('getting into here')
       if (msg.status.success === true) {
-        console.log('and here')
         au.setRoot('home').then(() => {
-          this.router.navigateToRoute('tweet');
+          this.router.navigateToRoute('home');
         });
       } else {
         au.setRoot('app').then(() => {
@@ -39,6 +40,17 @@ export class App {
       { route: 'login', name: 'login', moduleId: 'viewmodels/login/login', nav: true, title: 'Login' },
       { route: 'signup', name: 'signup', moduleId: 'viewmodels/signup/signup', nav: true, title: 'Signup' }
     ]);
+    config.mapUnknownRoutes(instruction => {
+      return 'home';
+    });
     this.router = router;
   }
+
+  /*attached() {
+    if (this.ts.isAuthenticated()) {
+      this.au.setRoot('home').then(() => {
+        this.router.navigateToRoute('tweet');
+      });
+    }
+  }*/
 }
