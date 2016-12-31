@@ -1,0 +1,22 @@
+<div class="ui grid">
+  <div class="ui column">
+  </div>
+  <div class="ui three wide column">
+    <div class="ui centered card" repeat.for="user of users">
+      <div class="image">
+        <img src="/getPublicPicture/{{_id}}" altSrc="images/placement.jpg" onerror="this.src = $(this).attr('altSrc')">
+      </div>
+      <div class="content">
+        <form action="/profile" method="POST" style="display: inline">
+          <input type="hidden" name="id" value={{_id}}>
+          <button class="ui secondary basic button">
+            {{firstName}} {{lastName}}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+  <div class="ui column">
+  </div>
+</div>

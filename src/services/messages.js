@@ -9,5 +9,3 @@ export class NewUserStat {
     this.status = status;
   }
 }
-
-

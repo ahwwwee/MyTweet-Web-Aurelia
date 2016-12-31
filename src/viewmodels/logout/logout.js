@@ -5,11 +5,11 @@ import {inject} from 'aurelia-framework';
 export class Logout {
 
   constructor(ts) {
-    this.ts = tweetService;
+    this.ts = ts;
   }
 
   logout() {
     console.log('logging out');
-    this.tweetService.logout();
+    this.ts.logout();
   }
 }

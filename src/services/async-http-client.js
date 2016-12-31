@@ -3,16 +3,20 @@ import {HttpClient} from 'aurelia-http-client';
 import Fixtures from './fixtures';
 import {LoginStatus} from './messages';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import TweetService from './TweetService';
 
-@inject(HttpClient, Fixtures, EventAggregator)
+@inject(HttpClient, Fixtures, EventAggregator, TweetService)
 export default class AsyncHttpClient {
 
-  constructor(httpClient, fixtures, ea) {
+  currentUser;
+
+  constructor(httpClient, fixtures, ea, ts) {
     this.http = httpClient;
     this.http.configure(http => {
       http.withBaseUrl(fixtures.baseUrl);
     });
     this.ea = ea;
+    this.ts = ts;
   }
 
   get(url) {
@@ -27,9 +31,14 @@ export default class AsyncHttpClient {
     return this.http.delete(url);
   }
 
+  tweet(url, tweet) {
+    this.http.post(url, tweet);
+  }
+
   authenticate(url, user) {
     this.http.post(url, user).then(response => {
       const status = response.content;
+      this.currentUser = status.user;
       if (status.success) {
         localStorage.tweet = JSON.stringify(response.content);
         this.http.configure(configuration => {

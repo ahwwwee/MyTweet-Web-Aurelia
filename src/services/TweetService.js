@@ -62,6 +62,8 @@ export default class TweetService {
       tweeter: this.currentUser
     };
     this.tweets.push(Tweet);
+    this.ac.tweet('/api/users/'+ this.ac.currentUser._id +'/tweets', Tweet);
+
   }
 
 }
