@@ -52,6 +52,6 @@
     "karma-babel-preprocessor": "^6.0.1"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "au run"
   }
 }
