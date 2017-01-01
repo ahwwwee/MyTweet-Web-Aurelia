@@ -52,6 +52,7 @@
     "karma-babel-preprocessor": "^6.0.1"
   },
   "scripts": {
+    "run": "npm install aurelia-cli -g",
     "run": "au run"
   }
 }
